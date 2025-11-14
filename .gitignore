@@ -1,0 +1,46 @@
+# Dependency directories
+node_modules/
+
+# Build directories
+build/
+dist/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# npm package-lock or yarn.lock file
+package-lock.json
+yarn.lock
+
+# React Native build files (if using React Native)
+*.xcodeproj/
+*.xcworkspace/
+android/
+ios/
+
+# dotenv environment variables file
+.env
+.env.*.local
+
+# Coverage directory used by testing tools
+coverage/
+
+# TypeScript files (if using TypeScript)
+*.tsbuildinfo
+
+# IDE and Editor folders
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Next.js build output (if applicable)
+.next/
+
+# CRA (Create React App) specific
+/.pnp
+.pnp.js

@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-warm-50 text-warm-800 font-sans;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-warm-400 hover:bg-warm-500 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-secondary {
+    @apply bg-warm-100 hover:bg-warm-200 text-warm-700 font-medium px-6 py-3 rounded-lg transition-colors duration-200 border border-warm-300;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-warm-200 p-4 sm:p-6;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-warm-300 focus:border-warm-400 focus:ring-2 focus:ring-warm-400/20 outline-none transition-all duration-200;
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  .badge-success {
+    @apply badge bg-green-100 text-green-800;
+  }
+  
+  .badge-warning {
+    @apply badge bg-yellow-100 text-yellow-800;
+  }
+  
+  .badge-info {
+    @apply badge bg-warm-100 text-warm-700;
+  }
+
+  /* Responsive utilities */
+  .container-responsive {
+    @apply w-full max-w-md mx-auto lg:max-w-6xl;
+  }
+
+  .grid-responsive {
+    @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
+  }
+
+  .sidebar-desktop {
+    @apply hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:left-0 lg:top-0 lg:h-full lg:bg-white lg:border-r lg:border-warm-200 lg:shadow-sm;
+  }
+
+  .main-content-desktop {
+    @apply lg:ml-64;
+  }
+
+  .mobile-container {
+    @apply lg:hidden;
+  }
+
+  .desktop-container {
+    @apply hidden lg:block;
+  }
+}
