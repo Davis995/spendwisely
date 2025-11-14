@@ -14,27 +14,42 @@ function App() {
 
   // Load data from localStorage on app start
   useEffect(() => {
-    const savedUser = localStorage.getItem('spendwise-user');
-    const savedExpenses = localStorage.getItem('spendwise-expenses');
-    
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    
-    if (savedExpenses) {
-      setExpenses(JSON.parse(savedExpenses));
+    try {
+      const savedUser = localStorage.getItem('spendwise-user');
+      const savedExpenses = localStorage.getItem('spendwise-expenses');
+      
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      }
+      
+      if (savedExpenses) {
+        setExpenses(JSON.parse(savedExpenses));
+      }
+    } catch (error) {
+      console.error('Error loading data from localStorage:', error);
+      // Clear corrupted data
+      localStorage.removeItem('spendwise-user');
+      localStorage.removeItem('spendwise-expenses');
     }
   }, []);
 
   // Save data to localStorage whenever it changes
   useEffect(() => {
     if (user) {
-      localStorage.setItem('spendwise-user', JSON.stringify(user));
+      try {
+        localStorage.setItem('spendwise-user', JSON.stringify(user));
+      } catch (error) {
+        console.error('Error saving user data to localStorage:', error);
+      }
     }
   }, [user]);
 
   useEffect(() => {
-    localStorage.setItem('spendwise-expenses', JSON.stringify(expenses));
+    try {
+      localStorage.setItem('spendwise-expenses', JSON.stringify(expenses));
+    } catch (error) {
+      console.error('Error saving expenses to localStorage:', error);
+    }
   }, [expenses]);
 
   const addExpense = (expense: Omit<Expense, 'id' | 'date'>) => {
@@ -88,7 +103,7 @@ function App() {
               />
               <Route 
                 path="/challenges" 
-                element={<Challenges user={user} updateUser={updateUser} />} 
+                element={<Challenges user={user} />} 
               />
             </Routes>
             <Navigation />
@@ -149,7 +164,7 @@ function App() {
                 />
                 <Route 
                   path="/challenges" 
-                  element={<Challenges user={user} updateUser={updateUser} />} 
+                  element={<Challenges user={user} />} 
                 />
               </Routes>
             </div>

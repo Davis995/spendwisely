@@ -27,12 +27,36 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   };
 
   const handleComplete = () => {
+    const monthlyIncome = parseFloat(formData.monthlyIncome);
+    const monthlyBudget = parseFloat(formData.monthlyBudget);
+    
+    // Validate all inputs before creating user
+    if (!formData.name.trim() || !formData.email.trim()) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    
+    if (isNaN(monthlyIncome) || monthlyIncome <= 0) {
+      alert('Please enter a valid monthly income');
+      return;
+    }
+    
+    if (isNaN(monthlyBudget) || monthlyBudget <= 0) {
+      alert('Please enter a valid monthly budget');
+      return;
+    }
+    
+    if (monthlyBudget > monthlyIncome) {
+      alert('Monthly budget cannot be greater than monthly income');
+      return;
+    }
+    
     const user: UserData = {
       id: Date.now().toString(),
-      name: formData.name,
-      email: formData.email,
-      monthlyIncome: parseFloat(formData.monthlyIncome),
-      monthlyBudget: parseFloat(formData.monthlyBudget),
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      monthlyIncome: monthlyIncome,
+      monthlyBudget: monthlyBudget,
       points: 0,
       level: 1,
       badges: [],

@@ -17,10 +17,34 @@ export default function Profile({ user, updateUser }: ProfileProps) {
   });
 
   const handleSave = () => {
+    const monthlyBudget = parseFloat(editData.monthlyBudget);
+    const monthlyIncome = parseFloat(editData.monthlyIncome);
+    
+    // Validate inputs
+    if (!editData.name.trim()) {
+      alert('Please enter a valid name');
+      return;
+    }
+    
+    if (isNaN(monthlyBudget) || monthlyBudget <= 0) {
+      alert('Please enter a valid monthly budget');
+      return;
+    }
+    
+    if (isNaN(monthlyIncome) || monthlyIncome <= 0) {
+      alert('Please enter a valid monthly income');
+      return;
+    }
+    
+    if (monthlyBudget > monthlyIncome) {
+      alert('Monthly budget cannot be greater than monthly income');
+      return;
+    }
+    
     updateUser({
-      name: editData.name,
-      monthlyBudget: parseFloat(editData.monthlyBudget),
-      monthlyIncome: parseFloat(editData.monthlyIncome),
+      name: editData.name.trim(),
+      monthlyBudget: monthlyBudget,
+      monthlyIncome: monthlyIncome,
     });
     setIsEditing(false);
   };
@@ -35,7 +59,7 @@ export default function Profile({ user, updateUser }: ProfileProps) {
   };
 
   const totalSavings = user.monthlyIncome - user.monthlyBudget;
-  const savingsRate = (totalSavings / user.monthlyIncome) * 100;
+  const savingsRate = user.monthlyIncome > 0 ? (totalSavings / user.monthlyIncome) * 100 : 0;
 
   return (
     <div className="p-4 pb-20 lg:pb-6">

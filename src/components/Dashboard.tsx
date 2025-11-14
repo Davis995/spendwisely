@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { UserData, Expense } from '../types';
 import { Plus, TrendingUp, Target, Award, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -26,7 +26,7 @@ export default function Dashboard({ user, expenses, updateUser }: DashboardProps
   }, [monthlyExpenses]);
 
   const budgetRemaining = user.monthlyBudget - totalSpentThisMonth;
-  const budgetPercentage = (totalSpentThisMonth / user.monthlyBudget) * 100;
+  const budgetPercentage = user.monthlyBudget > 0 ? (totalSpentThisMonth / user.monthlyBudget) * 100 : 0;
 
   const todayExpenses = useMemo(() => {
     const today = new Date().toDateString();
@@ -34,8 +34,8 @@ export default function Dashboard({ user, expenses, updateUser }: DashboardProps
   }, [expenses]);
 
   const todaySpent = todayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-  const dailyBudget = user.monthlyBudget / 30; // Rough daily budget
-  const isUnderDailyBudget = todaySpent <= dailyBudget;
+  const dailyBudget = user.monthlyBudget > 0 ? user.monthlyBudget / 30 : 0; // Rough daily budget
+  const isUnderDailyBudget = dailyBudget > 0 ? todaySpent <= dailyBudget : true;
 
   // Check if user earned points for staying under daily budget
   const checkDailyBudgetBonus = () => {
@@ -54,10 +54,10 @@ export default function Dashboard({ user, expenses, updateUser }: DashboardProps
     }
   };
 
-  // Check for daily budget bonus on component mount
-  useMemo(() => {
+  // Check for daily budget bonus when spending changes
+  useEffect(() => {
     checkDailyBudgetBonus();
-  }, [todaySpent, isUnderDailyBudget]);
+  }, [todaySpent, isUnderDailyBudget, user.points, updateUser]);
 
   const categoryBreakdown = useMemo(() => {
     const breakdown: Record<string, number> = {};

@@ -35,8 +35,21 @@ export default function ExpenseForm({ onAddExpense }: ExpenseFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.amount || !formData.category || !formData.description) {
+    if (!formData.amount || !formData.category || !formData.description.trim()) {
       alert('Please fill in all fields');
+      return;
+    }
+
+    const amount = parseFloat(formData.amount);
+    
+    // Validate amount
+    if (isNaN(amount) || amount <= 0) {
+      alert('Please enter a valid positive amount');
+      return;
+    }
+    
+    if (amount > 100000000) { // 100 million UGX limit
+      alert('Amount is too large. Please enter a reasonable amount.');
       return;
     }
 
@@ -44,7 +57,7 @@ export default function ExpenseForm({ onAddExpense }: ExpenseFormProps) {
     
     try {
       onAddExpense({
-        amount: parseFloat(formData.amount),
+        amount: amount,
         category: formData.category,
         description: formData.description.trim(),
       });
