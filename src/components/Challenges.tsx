@@ -4,7 +4,6 @@ import { Trophy, Target, Calendar, Award, Star, CheckCircle } from 'lucide-react
 
 interface ChallengesProps {
   user: UserData;
-  updateUser: (updates: Partial<UserData>) => void;
 }
 
 // Sample challenges - in a real app, these would come from an API
@@ -63,7 +62,7 @@ const sampleChallenges: Challenge[] = [
   },
 ];
 
-export default function Challenges({ user, updateUser }: ChallengesProps) {
+export default function Challenges({ user }: ChallengesProps) {
   const [challenges] = useState<Challenge[]>(sampleChallenges);
   const [activeTab, setActiveTab] = useState<'active' | 'completed'>('active');
 
@@ -75,7 +74,7 @@ export default function Challenges({ user, updateUser }: ChallengesProps) {
     return challenges.filter(challenge => challenge.isCompleted);
   }, [challenges]);
 
-  const joinChallenge = (challengeId: string) => {
+  const joinChallenge = () => {
     // In a real app, this would update the challenge status
     alert('🎯 Challenge joined! Start tracking your progress!');
   };
@@ -217,7 +216,7 @@ export default function Challenges({ user, updateUser }: ChallengesProps) {
                     ⏰ {formatTimeRemaining(challenge.endDate)}
                   </span>
                   <button
-                    onClick={() => joinChallenge(challenge.id)}
+                    onClick={() => joinChallenge()}
                     className="btn-secondary text-sm py-2 px-4"
                   >
                     Join Challenge
